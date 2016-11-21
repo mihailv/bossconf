@@ -13,7 +13,7 @@ setup(
 
     # Name & Version
     name='bossconf',
-    version='0.1a6',
+    version='0.1a7',
 
     # Description
     description='Config parser with token interpreter',

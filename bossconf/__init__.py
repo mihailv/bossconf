@@ -14,13 +14,15 @@ def main_cli():
         print 'BossConf needs 2 arguments: [conf_file_path, "lev1, lev2"]'
         exit(1)
     else:
-        abs_conf_path = args[1]
+        conf_path = args[1]
         get_string = args[2]
 
     # check conf file path is abs
-    if not os.path.isabs(abs_conf_path):
-        print 'Path provided is not absolute ' + abs_conf_path
-        exit(1)
+    if not os.path.isabs(conf_path):
+        orig_path = os.getcwd()
+        abs_conf_path = os.path.normpath('/'.join([orig_path, conf_path]))
+    else:
+        abs_conf_path = conf_path
 
     # check if conf file exists
     if os.path.isfile(abs_conf_path):
