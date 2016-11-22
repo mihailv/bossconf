@@ -1,5 +1,6 @@
 import re
 
+
 class TokenInjector:
     def __init__(self, tokens, token_fmt='%s'):
         self.tokens = dict([(token_fmt % t, v) for t, v in tokens.iteritems() if isinstance(v, basestring)])

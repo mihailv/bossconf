@@ -1,62 +1,61 @@
 import json
-import os
 import yaml
 
 from token_injector import TokenInjector
 
-class BossConf():
 
-    "Config parser with token interpreter"
+class BossConf:
+    """Config parser with token interpreter"""
 
-    config = None;
+    config = None
+    token_injector = None
 
     def __init__(self, config_path, config_file="config.yaml"):
-        
+
         # load config object
-        conf_obj = self.__load_config(config_path, config_file)
+        conf_obj = BossConf.__load_config(config_path, config_file)
         if conf_obj:
             self.config = conf_obj
         else:
-            raise Exception(' '.join(['Config', '/'.join([config_path, config_file]), 'could not be loaded' ]))
+            raise Exception(' '.join(['Config', '/'.join([config_path, config_file]), 'could not be loaded']))
 
-
-    def __load_config(self, config_path, config_file):
+    @staticmethod
+    def __load_config(config_path, config_file):
 
         conf_obj = None
 
         # detect extension
-        ext = None
-        ext = self.__get_conf_extension(config_file)
-    
-        path = '/'.join([config_path, config_file])
+        ext = BossConf.__get_conf_extension(config_file)
+
+        path = '/'.join(['/'.join(config_path), config_file])
 
         # open file
         with open(path, 'r') as f:
+            content = f.read()
             if ext:
                 if ext == 'json':
-                    conf_obj = json.loads(f)
+                    conf_obj = json.loads(content)
                 elif ext == 'yaml':
-                    conf_obj = yaml.load(f)
+                    conf_obj = yaml.load(content)
             else:
                 try:
-                    conf_obj = yaml.load(f)
-                except Exception as e:
+                    conf_obj = yaml.load(content)
+                except Exception:
                     try:
-                        conf_obj = json.loads(f)
-                    except Exception as e:
+                        conf_obj = json.loads(content)
+                    except Exception:
                         raise Exception(' '.join(['File', path, 'is neither json nor yaml']))
 
         return conf_obj
 
-
-
-    def __get_conf_extension(self, file_name):
+    @staticmethod
+    def __get_conf_extension(file_name):
         ext = None
         if '.' in file_name:
             ext = file_name.split('.')[-1]
             if ext:
                 if ext == 'json':
-                    conf_type = 'json'
+                    ext = 'json'
                 elif ext == 'yaml':
                     ext = 'yaml'
 
@@ -64,9 +63,8 @@ class BossConf():
 
     """ Public """
 
-    def get(self, nmsp = None, token_mapping = None, only_key = False, return_if_none=None):
+    def get(self, nmsp=None, token_mapping=None, only_key=False, return_if_none=None):
         """ abstract getter """
-        data = None
         if nmsp:
             if type(nmsp) is list:
                 data = self.config
@@ -74,7 +72,7 @@ class BossConf():
                     i = 0
                     rec_level = len(nmsp)
                     for p_nmsp in nmsp:
-                        i = i + 1
+                        i += 1
                         if p_nmsp in data:
                             if only_key and i == rec_level and type(data[p_nmsp]) is dict:
                                 data = data[p_nmsp].keys()
@@ -90,7 +88,7 @@ class BossConf():
         if token_mapping:
             self.token_injector = TokenInjector(token_mapping, '`%s`')
             data = self.get_untokenized_data(data, token_mapping)
-        
+
         # change default if none
         if not data and return_if_none:
             data = return_if_none
@@ -104,7 +102,7 @@ class BossConf():
             if type(value) == list:
                 val_container = []
                 for val in value:
-                   val_container.append(self.token_injector(val)) 
+                    val_container.append(self.token_injector(val))
                 untokenized_data[key] = val_container
             elif type(value) == dict:
                 untokenized_data[key] = self.get_untokenized_data(value, mapping)
