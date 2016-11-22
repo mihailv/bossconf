@@ -1,7 +1,9 @@
 """ cli/lib dispatcher """
 from bossconf import BossConf
 
+
 def main(): pass
+
 
 def main_cli():
     import os
@@ -10,12 +12,20 @@ def main_cli():
     # args
     args = sys.argv
 
-    if len(args) < 2:
-        print 'BossConf needs 2 arguments: [conf_file_path, "lev1, lev2"]'
+    if len(args) < 3:
+        print 'BossConf needs 2 arguments: [conf_file_path, "lev1,lev2"]'
         exit(1)
-    else:
-        conf_path = args[1]
-        get_string = args[2]
+
+    conf_path = args[1].strip()
+    get_string = args[2].strip()
+
+    if not conf_path:
+        print 'Empty path to config'
+        exit(1)
+
+    if not get_string:
+        print 'Empty config key'
+        exit(1)
 
     # check conf file path is abs
     if not os.path.isabs(conf_path):
@@ -29,7 +39,7 @@ def main_cli():
 
         # prep lookup str
         if ',' in get_string:
-            get_string = get_strig.split(',')
+            get_string = get_string.split(',')
         else:
             get_string = [get_string]
 
