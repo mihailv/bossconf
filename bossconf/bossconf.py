@@ -10,17 +10,37 @@ class BossConf:
     config = None
     token_injector = None
 
-    def __init__(self, config_path, config_file="config.yaml"):
+    def __init__(self, config_path, config_file="config.yaml", injected_data = False):
 
         # load config object
-        conf_obj = BossConf.__load_config(config_path, config_file)
+        if injected_data:
+            conf_obj = BossConf.__load_injected_data(injected_data)
+        else:
+            conf_obj = BossConf.__load_config(config_path, config_file)
+
         if conf_obj:
             self.config = conf_obj
         else:
             raise Exception(' '.join(['Config', '/'.join([config_path, config_file]), 'could not be loaded']))
+    
+    @staticmethod
+    def __load_injected_data(content):
+        """ load data and detect type (json/yaml) """
+        data = None
+        try:
+            data = yaml.load(content)
+        except Exception:
+            try:
+                data = json.loads(content)
+            except Exception as e:
+                raise Exception(' '.join(['Data supplied', 'is neither json nor yaml']))
+
+        return data
+
 
     @staticmethod
     def __load_config(config_path, config_file):
+        """ read content """
 
         conf_obj = None
 
@@ -50,6 +70,7 @@ class BossConf:
 
     @staticmethod
     def __get_conf_extension(file_name):
+        """ detect extension by filename """
         ext = None
         if '.' in file_name:
             ext = file_name.split('.')[-1]
