@@ -26,4 +26,6 @@ Used as library :
     
     if not found None value
 
+  For full documentation see: https://github.com/mihailv/bossconf/blob/master/README.md
+
 ---
