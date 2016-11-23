@@ -2,7 +2,8 @@
 ----------
 ```
 When it's hard to parse it, BossConf it!
-(config parser with token interpreter)
+- config library for python application
+- CLI tool
 ```
 
 ### Instalation:
@@ -17,14 +18,15 @@ When it's hard to parse it, BossConf it!
 
 ### Used as CLI:
 
-#### bossconf:  
+#### File as argument  
   * **bossconf /path/to/file "level1, level2"** - this command will access the level you want form file
 
-#### CAT command:
+#### Used with pipe
   * **cat example.json &#124; bossconf "level1, level2"** - this command will read and parse data from file and outputs the content.
 
-#### ECHO command:
   * **echo '{"key":"value"}' &#124; bossconf 'key'** - this command will parse the string containing data for parsing and display the content.
+
+  * **curl curl -u user:password 'http://your/url/'** | bossconf
 
 #### Examples
  * given the following files you can have:
@@ -46,6 +48,14 @@ When it's hard to parse it, BossConf it!
 4. `echo '{"anne":{"has":"apples","marry":["has pears"]}}' | bossconf "anne, marry"` and the output:
 
     ![](https://s17.postimg.org/7iyco8sb3/echocommand.png)
+
+5. `curl -u guest:rate 'http://example.com/api/queues' | bossconf` will output:
+
+    ![](https://s14.postimg.org/63murpfr5/example2_curl.png)
+
+6. `curl -u guest:rate 'http://example.com/api/queues' | bossconf '0, back'` will display:
+
+    ![](https://s17.postimg.org/p4622u1mn/curl_example.png)
 
 ### Used as library:
  * you just need to import the moduel and create a new instance.
