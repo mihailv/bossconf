@@ -84,6 +84,12 @@ class BossConf:
 
     """ Public """
 
+    def check_str_int(self, string):
+        try:
+            int(string)
+            return True
+        except Exception as e: pass
+
     def get(self, nmsp=None, token_mapping=None, only_key=False, return_if_none=None):
         """ abstract getter """
         if nmsp:
@@ -94,14 +100,23 @@ class BossConf:
                     rec_level = len(nmsp)
                     for p_nmsp in nmsp:
                         i += 1
-                        if p_nmsp in data:
-                            if only_key and i == rec_level and type(data[p_nmsp]) is dict:
-                                data = data[p_nmsp].keys()
+                        is_int = self.check_str_int(p_nmsp)
+                        if is_int:
+                            int_key = int(p_nmsp)
+                            if type(data) is list and len(data) >= int_key:
+                                data = data[int(int_key)]
                             else:
-                                data = data[p_nmsp]
+                                data = None
+                                break
                         else:
-                            data = None
-                            break
+                            if p_nmsp in data:
+                                if only_key and i == rec_level and type(data[p_nmsp]) is dict:
+                                    data = data[p_nmsp].keys()
+                                else:
+                                    data = data[p_nmsp]
+                            else:
+                                data = None
+                                break
             else:
                 data = self.config[nmsp]
         else:
