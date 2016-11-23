@@ -47,7 +47,7 @@ class BossConf:
         # detect extension
         ext = BossConf.__get_conf_extension(config_file)
 
-        path = '/'.join(['/'.join(config_path), config_file])
+        path = '/'.join([config_path, config_file])
 
         # open file
         with open(path, 'r') as f:
