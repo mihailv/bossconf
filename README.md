@@ -9,9 +9,9 @@ When it's hard to parse it, BossConf it!
   * for installation you need to use **pip install bossconf**.
   * python 2.6.6 up to 2.7.x version.
 
-#### Info:
-    * for the program to run you need privileges to install packages.
+### Info:
     * you must run the CLI with parameters for path and filename.
+    * you can also use it as module and just create instances.
     * options can be mixed in order to return more from CLI tool.
 
 
@@ -32,16 +32,20 @@ When it's hard to parse it, BossConf it!
 ![](https://s22.postimg.org/f11tyxzox/json_dev.png)
 
 1. `bossconf example.yaml "anne, has"` and the output will be:
-![](https://s17.postimg.org/p70db1ozj/parser_yaml.png)
+
+    ![](https://s17.postimg.org/p70db1ozj/parser_yaml.png)
 
 2. `bossconf example.json "anne, marry"` and the output:
-![](https://s22.postimg.org/3r943zunl/parser_json.png)
+
+    ![](https://s22.postimg.org/3r943zunl/parser_json.png)
 
 3. `cat example.json "anne, has"` the output will be:
-![](https://s21.postimg.org/rnyka46x3/catcommand.png)
+
+    ![](https://s21.postimg.org/rnyka46x3/catcommand.png)
 
 4. `echo '{"anne":{"has":"apples","marry":["has pears"]}}' | bossconf "anne, marry"` and the output:
-![](https://s17.postimg.org/7iyco8sb3/echocommand.png)
+
+    ![](https://s17.postimg.org/7iyco8sb3/echocommand.png)
 
 ### Used as library:
  * you just need to import the moduel and create a new instance.
