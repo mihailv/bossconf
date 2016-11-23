@@ -51,7 +51,7 @@ def main_cli():
         else:
             data_type = 'yaml'
 
-        if data_type == 'json':
+	if data_type == 'json':
             # get string from stdin
             stdin_str_members_clean = []
             for stdin_str_member in stdin_str_members:
@@ -97,9 +97,9 @@ def main_cli():
 
             # run BossConf
             conf_file_name = abs_conf_path.split('/')[-1]
-            conf_dir_path = abs_conf_path.split('/')[:-1]
+            conf_dir_path = '/'.join(abs_conf_path.split('/')[:-1])
             if conf_file_name and conf_dir_path:
-                __out(BossConf(None, None, stdin_str).get(get_string))
+                __out(BossConf(conf_dir_path, conf_file_name).get(get_string))
         else:
             print 'File does not exist at ' + abs_conf_path
             exit(1)
