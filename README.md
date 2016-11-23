@@ -1,5 +1,6 @@
 ## BossConf
 ----------
+### Info:
 ```
 When it's hard to parse it, BossConf it!
 - config library for python application
@@ -7,13 +8,8 @@ When it's hard to parse it, BossConf it!
 ```
 
 ### Instalation:
-  * for installation you need to use **pip install bossconf**.
+  * for installation you need to run **pip install bossconf**.
   * python 2.6.6 up to 2.7.x version.
-
-### Info:
-    * you must run the CLI with parameters for path and filename.
-    * you can also use it as module and just create instances.
-    * options can be mixed in order to return more from CLI tool.
 
 
 ### Used as CLI:
