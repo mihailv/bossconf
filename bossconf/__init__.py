@@ -24,20 +24,23 @@ def main_cli():
     if stdin:
 
         # validation
-        if len(args) < 2 or len(args) > 2:
-            print 'BossConf needs 1 argument(when used via pipe) keys to parse: ["lev1,lev2"]'
-            exit(1)
-
-        get_string = args[1].strip()
-        if not get_string:
-            print 'Empty config key'
-            exit(1)
-        
-        # prep lookup str
-        if ',' in get_string:
-            get_string = [ str_mem.strip() for str_mem in get_string.split(',') ]
+        get_string = None
+        if len(args) == 2:
+            get_string = args[1].strip()
+            if not get_string:
+                print 'Empty config key'
+                exit(1)
         else:
-            get_string = [get_string.strip()]
+            if len(args) > 2:
+                print 'BossConf needs 1 argument(when used via pipe) keys to parse: ["lev1,lev2"]'
+                exit(1)
+        
+        if get_string:
+            # prep lookup str
+            if ',' in get_string:
+                get_string = [ str_mem.strip() for str_mem in get_string.split(',') ]
+            else:
+                get_string = [get_string.strip()]
         
         # get cli list
         stdin_str_members = stdin[0].readlines()
