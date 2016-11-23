@@ -1,6 +1,14 @@
 """ cli/lib dispatcher """
 from bossconf import BossConf
 
+def __out(data):
+    import json
+    """ output """
+    if data:
+        print json.dumps(data, sort_keys=True, indent=2, separators=(',', ': '))
+    else:
+        print data
+
 def main(): pass
 
 
@@ -50,7 +58,8 @@ def main_cli():
             stdin_str = ''.join(stdin_str_members)
 
         # Run program
-        print BossConf(None, None, stdin_str).get(get_string)
+        __out(BossConf(None, None, stdin_str).get(get_string))
+
     else:
         if len(args) < 3 or len(args) > 3:
             print 'BossConf needs 2 arguments: [conf_file_path, "lev1,lev2"]'
@@ -87,7 +96,7 @@ def main_cli():
             conf_file_name = abs_conf_path.split('/')[-1]
             conf_dir_path = abs_conf_path.split('/')[:-1]
             if conf_file_name and conf_dir_path:
-                print BossConf(conf_dir_path, conf_file_name).get(get_string)
+                __out(BossConf(None, None, stdin_str).get(get_string))
         else:
             print 'File does not exist at ' + abs_conf_path
             exit(1)
